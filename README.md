@@ -12,7 +12,7 @@
 	4.1. If player's hand === 21, automatically win 1.5 times their bet and dealer doesn't play
 		4.1.1 Play again button appears and they need to enter another bet amount to play again
 	4.2. If player's hand is < 21, 2 buttons show on screen, either 'hit' for an additional card, or 'stay' to stay with current hand
-	4.2. If their hand goes over 21, automatically count that as a lost, don't even bother hitting the dealer and subtract $$ from player's money value
+	4.2. If their hand goes over 21, automatically count that as a lost, don't even bother hitting the dealer 
 		4.2.1. Play again button appears and they need to enter another bet amount to play again
 
 5. If player's hand is < 21; deal 2 cards to dealer
