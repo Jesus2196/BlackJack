@@ -1,0 +1,16 @@
+body {
+    text-align: center;
+}
+
+button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-weight: bold;
+    box-shadow: 1px 1px;
+}
+
+button:hover {
+    transform: translateY(-10px);
+    background-color: rgba(100, 100, 100, 0.5);
+}

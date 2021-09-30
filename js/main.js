@@ -38,9 +38,9 @@ fiveButton.addEventListener("click", playerBet);
 quarterButton.addEventListener("click", playerBet);
 hundred.addEventListener("click", playerBet);
 
-// dealButton.addEventListener("click", placeHolder);
-// hitButton.addEventListener("click", placeHolder);
-// standButton.addEventListener("click", placeHolder);
+dealButton.addEventListener("click", dealCards);
+hitButton.addEventListener("click", playerHit);
+standButton.addEventListener("click", playerStand);
 
 /*----- functions -----*/
 
@@ -50,8 +50,8 @@ function init() {
     pHand = [];
     cHand = [];
 
-    bankRoll = 4000;
-    betValue = 0;
+    bankRoll = 5000;
+    betVal = 0;
 
     deck = getNewShuffledDeck();
     render();
@@ -65,6 +65,9 @@ function render() {
     } else {
         cValEl.innerHTML = getHandVal(cHand);
     }
+    renderMsg();
+    renderControls();
+    renderBet();
 }
 
 function playerHit() {
@@ -72,16 +75,16 @@ function playerHit() {
     pHand.push(card);
 
     let pVal = getHandVal(pHand);
-    if (pval > 21) {
-        handStatus = 'c';
-        betValue = 0;
+    if (pVal > 21) {
+        handStatus = "c";
+        betVal = 0;
     }
     render();
 }
 
 function playerStand() {
     let pVal = getHandVal(pHand);
-    let cVal = getHandVal(cVal);
+    let cVal = getHandVal(cHand);
 
     while (cVal < 17) {
         let card = deck.shift();
@@ -89,20 +92,20 @@ function playerStand() {
         cVal = getHandVal(cHand);
     };
     if (cVal > 21) {
-        handStatus = 'p';
-        bankRoll += betValue * 2;
-        betValue = 0;
+        handStatus = "p";
+        bankRoll += betVal * 2;
+        betVal = 0;
     } else if (cVal > pVal) {
-        handStatus = 'c';
-        betValue = 0;
+        handStatus = "c";
+        betVal = 0;
     } else if (cVal < pVal) {
-        handStatus = 'p';
-        bankRoll += betValue * 2;
-        betValue = 0;
+        handStatus = "p";
+        bankRoll += betVal * 2;
+        betVal = 0;
     } else {
-        handStatus = 't';
-        bankRoll += betValue;
-        betValue = 0;
+        handStatus = "t";
+        bankRoll += betVal;
+        betVal = 0;
     }
     render();
 }
@@ -113,13 +116,14 @@ function renderCards() {
         if (idx === 0 && handStatus === null) {
             html += `<div class="card back"></div>`;
         } else {
-            html += `<div class="card ${card.face}"></div>`;
+            html = html + `<div class="card ${card.face}"></div>`;
         }
     });
     cHandEl.innerHTML = html;
+
     html = "";
     pHand.forEach(function (card, idx) {
-        html += `<div class="card ${card.face}"></div>`;
+        html = html + `<div class="card ${card.face}"></div>`;
     });
     pHandEl.innerHTML = html;
 }
@@ -127,10 +131,9 @@ function renderCards() {
 function dealCards() {
     cHand = [];
     pHand = [];
-
     handStatus = null;
-    let card = deck.shift();
 
+    let card = deck.shift();
     pHand.push(card);
     card = deck.shift();
     pHand.push(card);
@@ -143,16 +146,16 @@ function dealCards() {
     let cVal = getHandVal(cHand);
 
     if (pVal === 21 && cVal === 21) {
-        handStatus = 't';
-        bankRoll += betValue;
-        betValue = 0;
+        handStatus = "t";
+        bankRoll += betVal;
+        betVal = 0;
     } else if (pVal === 21) {
-        handStatus = 'pbj';
-        bankRoll += betValue + (betValue * 1.5);
-        betValue = 0;
+        handStatus = "pbj";
+        bankRoll += betVal + (betVal * 1.5);
+        betVal = 0;
     } else if (cVal === 21) {
-        handStatus = 'cbj';
-        betValue = 0;
+        handStatus = "cbj";
+        betVal = 0;
     }
     render();
 }
@@ -166,7 +169,7 @@ function getHandVal(hand) {
             totalAces++;
         }
     });
-    while (total < 21 && totalAces > 0) {
+    while (total > 21 && totalAces > 0) {
         total -= 10;
         totalAces--;
     }
@@ -174,7 +177,7 @@ function getHandVal(hand) {
 }
 
 function playerBet(evt) {
-    const bet = parseInt(evt.target.textContent);
+    let bet = parseInt(evt.target.textContent);
     if (bankRoll < bet) return;
     bankRoll = bankRoll - bet;
     betVal += bet;
@@ -194,6 +197,22 @@ function renderControls() {
     fiveButton.style.display = handStatus !== null ? "inline-block" : "none";
     quarterButton.style.display = handStatus !== null ? "inline-block" : "none";
     hundredButton.style.display = handStatus !== null ? "inline-block" : "none";
+}
+
+function renderMsg() {
+    if (handStatus === "t") {
+        msgEl.innerHTML = `<span style="color: blue">It’s a Tie!</span>`;
+    } else if (handStatus === "pbj") {
+        msgEl.textContent = "Player Has BlackJack!";
+    } else if (handStatus === "cbj") {
+        msgEl.textContent = "Dealer Has BlackJack!";
+    } else if (handStatus === "p") {
+        msgEl.innerHTML = `<span style="color: green">Player Wins!</span>`;
+    } else if (handStatus === "c") {
+        msgEl.innerHTML = `<span style="color: red">Dealer Wins!</span>`;
+    } else if (handStatus === null) {
+        msgEl.textContent = "Hit or Stand";
+    }
 }
 
 function getNewShuffledDeck() {
