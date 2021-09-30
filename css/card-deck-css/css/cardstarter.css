@@ -4,8 +4,8 @@
   display: inline-block;
   margin: 5px 5px 50px 5px;
   cursor: pointer;
-  /* Set the card's dimensions, and size it relative to
-     it's font size. */
+  /* Set the card"s dimensions, and size it relative to
+     it"s font size. */
   font-size: inherit;
   width: 4.0em;
   height: 5.5em;
@@ -320,7 +320,7 @@
   background-image: url("../images/backs/red.svg"); }
 
 /* Re-orients the cards for different directions. While
-   they are symmetric, it's still important to orient
+   they are symmetric, it"s still important to orient
    them correctly in case text or other symbols are
    layered on them with CSS pseudo-selectors, new
    classes/rules, etc. */
