@@ -66,7 +66,7 @@ function render() {
     }
     renderMsg();
     renderControls();
-    renderBet();
+    renderMoney();
 }
 
 function playerHit() {
@@ -131,8 +131,8 @@ function dealCards() {
     cHand = [];
     pHand = [];
     handStatus = null;
-
     let card = deck.shift();
+
     pHand.push(card);
     card = deck.shift();
     pHand.push(card);
@@ -184,7 +184,7 @@ function playerBet(evt) {
     render();
 }
 
-function renderBet() {
+function renderMoney() {
     betEl.innerHTML = `Bet $${betVal}`;
     bankRollEl.innerHTML = `Bank Roll $${bankRoll}`;
 }
@@ -193,6 +193,7 @@ function renderControls() {
     dealButton.style.display = betVal > 0 && handStatus !== null ? "inline-block" : "none";
     standButton.style.display = !handStatus && pHand.length ? "inline-block" : "none";
     hitButton.style.display = !handStatus && pHand.length ? "inline-block" : "none";
+
     fiveButton.style.display = handStatus !== null ? "inline-block" : "none";
     quarterButton.style.display = handStatus !== null ? "inline-block" : "none";
     hundredButton.style.display = handStatus !== null ? "inline-block" : "none";
@@ -203,7 +204,7 @@ function renderMsg() {
     if (handStatus === "t") {
         msgEl.innerHTML = `<span style="color: blue">It’s a Tie!</span>`;
     } else if (handStatus === "pbj") {
-        msgEl.innerHTML = `Player Has <span style="color: green">BlackJack!</span`;
+        msgEl.innerHTML = `Player Has <span style="color: green">BlackJack!</span>`;
     } else if (handStatus === "cbj") {
         msgEl.innerHTML = `Dealer Has <span style="color: red">BlackJack!</span>`;
     } else if (handStatus === "p") {
