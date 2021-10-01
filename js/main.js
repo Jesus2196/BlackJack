@@ -1,8 +1,7 @@
 /*----- constants -----*/
 
-const suits = ['s', 'c', 'd', 'h'];
-const ranks = ['02', '03', '04', '05', '06', '07', '08', '09', '10', 'J', 'Q', 'K', 'A’'];
-const GOAL_COUNT = 21;
+const suits = ["s", "c", "d", "h"];
+const ranks = ["02", "03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K", "A"];
 const masterDeck = buildMasterDeck();
 
 /*----- app"s state (variables) -----*/
@@ -22,10 +21,10 @@ let cHandEl = document.getElementById("cHand");
 let pValEl = document.getElementById("pScore");
 let pHandEl = document.getElementById("pHand");
 
-let oneButton = document.getElementById("one");
 let fiveButton = document.getElementById("five");
 let quarterButton = document.getElementById("quarter");
 let hundredButton = document.getElementById("hundred");
+let fiveHunButton = document.getElementById("fiveHun");
 
 let dealButton = document.getElementById("deal");
 let hitButton = document.getElementById("hit");
@@ -33,10 +32,10 @@ let standButton = document.getElementById("stand");
 
 /*----- event listeners -----*/
 
-oneButton.addEventListener("click", playerBet);
 fiveButton.addEventListener("click", playerBet);
 quarterButton.addEventListener("click", playerBet);
-hundred.addEventListener("click", playerBet);
+hundredButton.addEventListener("click", playerBet);
+fiveHunButton.addEventListener("click", playerBet);
 
 dealButton.addEventListener("click", dealCards);
 hitButton.addEventListener("click", playerHit);
@@ -50,7 +49,7 @@ function init() {
     pHand = [];
     cHand = [];
 
-    bankRoll = 5000;
+    bankRoll = 1500;
     betVal = 0;
 
     deck = getNewShuffledDeck();
@@ -116,7 +115,7 @@ function renderCards() {
         if (idx === 0 && handStatus === null) {
             html += `<div class="card back"></div>`;
         } else {
-            html = html + `<div class="card ${card.face}"></div>`;
+            html += `<div class="card ${card.face}"></div>`;
         }
     });
     cHandEl.innerHTML = html;
@@ -163,6 +162,7 @@ function dealCards() {
 function getHandVal(hand) {
     let total = 0;
     let totalAces = 0;
+    
     hand.forEach(function (card) {
         total += card.value;
         if (card.value === 11) {
@@ -179,33 +179,33 @@ function getHandVal(hand) {
 function playerBet(evt) {
     let bet = parseInt(evt.target.textContent);
     if (bankRoll < bet) return;
-    bankRoll = bankRoll - bet;
+    bankRoll -= bet;
     betVal += bet;
     render();
 }
 
 function renderBet() {
     betEl.innerHTML = `Bet $${betVal}`;
-    bankRollEl.innerHTML = `BankRoll $${bankRoll}`;
+    bankRollEl.innerHTML = `Bank Roll $${bankRoll}`;
 }
 
 function renderControls() {
     dealButton.style.display = betVal > 0 && handStatus !== null ? "inline-block" : "none";
     standButton.style.display = !handStatus && pHand.length ? "inline-block" : "none";
     hitButton.style.display = !handStatus && pHand.length ? "inline-block" : "none";
-    oneButton.style.display = handStatus !== null ? "inline-block" : "none";
     fiveButton.style.display = handStatus !== null ? "inline-block" : "none";
     quarterButton.style.display = handStatus !== null ? "inline-block" : "none";
     hundredButton.style.display = handStatus !== null ? "inline-block" : "none";
+    fiveHunButton.style.display = handStatus !== null ? "inline-block" : "none";
 }
 
 function renderMsg() {
     if (handStatus === "t") {
         msgEl.innerHTML = `<span style="color: blue">It’s a Tie!</span>`;
     } else if (handStatus === "pbj") {
-        msgEl.textContent = "Player Has BlackJack!";
+        msgEl.innerHTML = `Player Has <span style="color: green">BlackJack!</span`;
     } else if (handStatus === "cbj") {
-        msgEl.textContent = "Dealer Has BlackJack!";
+        msgEl.innerHTML = `Dealer Has <span style="color: red">BlackJack!</span>`;
     } else if (handStatus === "p") {
         msgEl.innerHTML = `<span style="color: green">Player Wins!</span>`;
     } else if (handStatus === "c") {
