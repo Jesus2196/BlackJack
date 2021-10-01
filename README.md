@@ -14,7 +14,7 @@
 _{The game of BlackJack is a universal game played in almost all casinos because of its simplicity but its fun value. The winner of the game, is the person who can achieve 21 OR the closest hand to 21 WITHOUT going over. }_
 
 ### Getting Started
-* ![Click here to play](https://jesus2196.github.io/BlackJack/)
+* [Click here to play](https://jesus2196.github.io/BlackJack/)
 
 
 #### Future Plans:
