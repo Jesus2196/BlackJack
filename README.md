@@ -2,6 +2,11 @@
 
 #### By Jesus Pineda
 
+## Screenshots
+
+### Winning hand:
+![winningHand](https://i.imgur.com/D4notzd.png)
+
 #### The player with the hand closest to 21 without going over, wins!
 
 ## Technologies Used:
